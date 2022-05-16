@@ -58,8 +58,8 @@ int main()
     if (zadanie == 1) {
         std::cout << "---------------------------------Zadanie 1---------------------------------" << std::endl;
         /*
-        * Zadanie 1: Zdefiniowane zosta³y 3 zmienne globalne (A, B, C), na których operuj¹ trzy funkcje (f1, f2, f3).
-        * Za pomoc¹ semaforów zsynchronizuj w¹tki tak, aby suma wspomianych wczeœniej zmiennych globalnych wynosi³a 37.
+        * Zadanie 1: Zdefiniowane zostaÅ‚y 3 zmienne globalne (A, B, C), na ktÃ³rych operujÄ… trzy funkcje (f1, f2, f3).
+        * Za pomocÄ… semaforÃ³w zsynchronizuj wÄ…tki tak, aby suma wspomianych wczeÅ›niej zmiennych globalnych wynosiÅ‚a 37.
         */
         std::jthread jt1(f1);
         std::jthread jt2(f2);
@@ -68,16 +68,15 @@ int main()
         std::cout << "Suma: " << A + B + C << std::endl;
         b.release();
         c.release();
-        std::cout << distrib(gen) << distrib(gen);
     }
     
     if (zadanie == 2) {
         std::cout << "---------------------------------Zadanie 2---------------------------------" << std::endl;
         /*
-        * Zadanie 2: Stworzone zosta³o wyra¿enie lambda "licz" oraz vector w¹tków, w których jest ono wykonywane.
-        * Do zrealizowania zadania wykorzystaj barierê.
-        * 2.1 Stwórz wyra¿enie lambda i wypisz w nim maksymaln¹ otrzyman¹ wartoœæ (std::max_element).
-        * 2.2 Wykorzystaj stworzon¹ poni¿ej pêtlê (1) umo¿liwaj¹c¹ wyœwietlenie paru najwiêkszych wartoœci. Nie zmieniaj jej po³o¿enia.
+        * Zadanie 2: Stworzone zostaÅ‚o wyraÅ¼enie lambda "licz" oraz vector wÄ…tkÃ³w, w ktÃ³rych jest ono wykonywane.
+        * Do zrealizowania zadania wykorzystaj barierÄ™.
+        * 2.1 StwÃ³rz wyraÅ¼enie lambda i wypisz w nim maksymalnÄ… otrzymanÄ… wartoÅ›Ä‡ (std::max_element).
+        * 2.2 Wykorzystaj stworzonÄ… poniÅ¼ej pÄ™tlÄ™ (1) umoÅ¼liwajÄ…cÄ… wyÅ›wietlenie paru najwiÄ™kszych wartoÅ›ci. Nie zmieniaj jej poÅ‚oÅ¼enia.
         */
         std::vector<int> vec(100);
         std::iota(vec.begin(), vec.end(), 100);
@@ -88,7 +87,7 @@ int main()
         auto comp = [&]() noexcept { 
             int m = *std::max_element(vec.begin(), vec.end());
             std::cout << "Maksymalny element: " << m << std::endl;
-            s.release(); //Oczywiœcie pêtlê (1) mo¿na by by³o wstawiæ tutaj i nie u¿ywaæ semafora.
+            s.release(); //OczywiÅ›cie pÄ™tlÄ™ (1) moÅ¼na by byÅ‚o wstawiÄ‡ tutaj i nie uÅ¼ywaÄ‡ semafora.
         };
 
         std::barrier sync(100, comp);
@@ -113,11 +112,11 @@ int main()
     if (zadanie == 3) {
         std::cout << "---------------------------------Zadanie 3---------------------------------" << std::endl;
         /*
-        * Zadanie 3: Treœæ podobna do tej powy¿ej, lecz z wykorzystaniem counting_semaphore.
-        * Stworzone zosta³o wyra¿enie lambda "licz" oraz vector w¹tków w których jest ono wykonywane.
+        * Zadanie 3: TreÅ›Ä‡ podobna do tej powyÅ¼ej, lecz z wykorzystaniem counting_semaphore.
+        * Stworzone zostaÅ‚o wyraÅ¼enie lambda "licz" oraz vector wÄ…tkÃ³w w ktÃ³rych jest ono wykonywane.
         * Do zrealizowania zadania wykorzystaj counting_semaphore.
-        * 3.1 Wypisz maksymaln¹ otrzyman¹ wartoœæ (std::max_element).
-        * 3.2 Wykorzystaj stworzon¹ poni¿ej pêtlê (1) umo¿liwaj¹c¹ wyœwietlenie paru najwiêkszych wartoœci. Nie zmieniaj jej po³o¿enia.
+        * 3.1 Wypisz maksymalnÄ… otrzymanÄ… wartoÅ›Ä‡ (std::max_element).
+        * 3.2 Wykorzystaj stworzonÄ… poniÅ¼ej pÄ™tlÄ™ (1) umoÅ¼liwajÄ…cÄ… wyÅ›wietlenie paru najwiÄ™kszych wartoÅ›ci. Nie zmieniaj jej poÅ‚oÅ¼enia.
         */
         std::vector<int> vec(100);
         std::iota(vec.begin(), vec.end(), 100);
@@ -146,12 +145,12 @@ int main()
     if (zadanie == 4) {
         std::cout << "---------------------------------Zadanie 4---------------------------------" << std::endl;
         /* Zadanie 4
-        * W pewnej restauracji, ze wzglêdu na brak wiêkszej iloœci miejsc, obiad mo¿e jeœæ wy³¹cznie 6 goœci jednoczeœnie.
-        * Obiad chce zjeœæ 30 klientów, lecz z uwagi na piêkn¹ pogodê, nie staj¹ oni w kolejce, a co jakiœ czas sprawdzaj¹, czy nie zwolni³o siê jakieœ miejsce.
-        * Jednak, ze wzglêdu na póŸn¹ porê, restauracja jest w stanie obs³u¿yæ jeszcze wy³¹cznie 20 klientów, pozostali musz¹ obejœæ siê ze smakiem.
-	* Zjedzenie obiadu, brak dostêpnych w danej chwili miejsc i to, ¿e dany klient nie da³ rady zjeœæ tego dnia obiadu, jest symulowane odpowiednim komunikatem.
-        * 4.1 Za pomoc¹ counted_semaphore i metody try_acquire umo¿liw klientowi sprawdzenie, czy w restauracji jest wolne miejsce.
-        * 4.2 Obiadu nie zjad³o 10 klientów. Za pomoc¹ bariery spraw, by komunikaty o tym informuj¹ce pojawi³y siê na samym koñcu.
+        * W pewnej restauracji, ze wzglÄ™du na brak wiÄ™kszej iloÅ›ci miejsc, obiad moÅ¼e jeÅ›Ä‡ wyÅ‚Ä…cznie 6 goÅ›ci jednoczeÅ›nie.
+        * Obiad chce zjeÅ›Ä‡ 30 klientÃ³w, lecz z uwagi na piÄ™knÄ… pogodÄ™, nie stajÄ… oni w kolejce, a co jakiÅ› czas sprawdzajÄ…, czy nie zwolniÅ‚o siÄ™ jakieÅ› miejsce.
+        * Jednak, ze wzglÄ™du na pÃ³ÅºnÄ… porÄ™, restauracja jest w stanie obsÅ‚uÅ¼yÄ‡ jeszcze wyÅ‚Ä…cznie 20 klientÃ³w, pozostali muszÄ… obejÅ›Ä‡ siÄ™ ze smakiem.
+	* Zjedzenie obiadu, brak dostÄ™pnych w danej chwili miejsc i to, Å¼e dany klient nie daÅ‚ rady zjeÅ›Ä‡ tego dnia obiadu, jest symulowane odpowiednim komunikatem.
+        * 4.1 Za pomocÄ… counted_semaphore i metody try_acquire umoÅ¼liw klientowi sprawdzenie, czy w restauracji jest wolne miejsce.
+        * 4.2 Obiadu nie zjadÅ‚o 10 klientÃ³w. Za pomocÄ… bariery spraw, by komunikaty o tym informujÄ…ce pojawiÅ‚y siÄ™ na samym koÅ„cu.
         */
         std::vector<std::jthread> jtvec;
         for (int i = 0; i < 30; i++) {
@@ -164,7 +163,7 @@ int main()
 }
 
 
-//Deklaracje z zadania 4 zrób przed mainem.
+//Deklaracje z zadania 4 zrÃ³b przed mainem.
 
 void klient(int nr) {
     bool zjadl = false;
@@ -186,7 +185,7 @@ void klient(int nr) {
             mut.unlock();
         }
     }
-    if (!zjadl) { //nie uda³o siê zjeœæ obiadu
+    if (!zjadl) { //nie udaÅ‚o siÄ™ zjeÅ›Ä‡ obiadu
         bz4.arrive_and_wait();
         mut.lock();
         std::cout << "Klientowi numer " << nr << " dzisiaj nie udalo sie zjesc obiadu!" << std::endl;
